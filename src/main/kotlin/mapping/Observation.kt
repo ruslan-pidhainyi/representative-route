@@ -26,13 +26,11 @@ data class Observation(
         val sortedPoints = points().sortedBy { it.timestamp }
         val startTime = sortedPoints[0].timestamp
         val pointsWithTime = sortedPoints.map { PointWithTime(
-            longitude = it.longitude,
-            latitude = it.latitude,
+            coordinate = it.coordinate,
             knots = it.knots,
             millisecondsPassedFromStart = it.timestamp - startTime
         )
         }
-        println(pointsWithTime)
         return pointsWithTime
     }
 
@@ -40,14 +38,14 @@ data class Observation(
         val arr = str.split(",")
         val knots = if (arr[3] == "null") 10.0
         else arr[3].toDouble()
-        return Point(longitude = arr[0].toDouble(),
-            latitude = arr[1].toDouble(),
+        return Point(
+            coordinate = Coordinate(longitude = arr[0].toDouble(), latitude = arr[1].toDouble()),
             timestamp = arr[2].toLong(),
             knots = knots)
     }
 }
 
 @Serializable
-data class Point(val longitude :Double, val latitude: Double, val timestamp: Long,  val knots : Double)
+data class Point(val coordinate: Coordinate, val timestamp: Long,  val knots : Double)
 
-data class PointWithTime(val longitude :Double, val latitude: Double, val millisecondsPassedFromStart: Long,  val knots : Double)
+data class PointWithTime(val coordinate: Coordinate, val millisecondsPassedFromStart: Long,  val knots : Double)
