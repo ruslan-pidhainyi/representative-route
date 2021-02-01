@@ -5,7 +5,7 @@ import pipeline.Trip
 
 class FilteringNormalizer(
     private val minNumberOfPoints: Long,
-    private val maxDuration: Long
+    private val maxDuration: Long,
     ) : Normalizer {
     override fun normalize(observations: List<Trip>): List<Trip> {
         return observations
