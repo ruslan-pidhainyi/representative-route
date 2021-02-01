@@ -1,5 +1,5 @@
 package pipeline
 
 interface Export {
-    fun export() : String
+    fun export(coordinates: List<Coordinate>) : String
 }

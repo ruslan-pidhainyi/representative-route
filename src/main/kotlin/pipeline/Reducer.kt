@@ -1,5 +1,5 @@
 package pipeline
 
 interface Reducer {
-    fun reduce(observations: List<Observation>) : Observation
+    fun reduce(observations: List<Observation>) : List<Coordinate>
 }

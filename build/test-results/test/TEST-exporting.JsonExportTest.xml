@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="exporting.JsonExportTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-02-01T16:18:03" hostname="PL000111789" time="0.089">
+  <properties/>
+  <testcase name="should export data()" classname="exporting.JsonExportTest" time="0.089"/>
+  <system-out><![CDATA[{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[53.615707,8.489074]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[53.681942,8.36147]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[53.749012,8.214272]}}]}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -2,6 +2,7 @@ package pipeline
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import reducing.PointWithTime
 
 @Serializable
 data class Observation(
@@ -48,4 +49,3 @@ data class Observation(
 @Serializable
 data class Point(val coordinate: Coordinate, val timestamp: Long,  val knots : Double)
 
-data class PointWithTime(val coordinate: Coordinate, val millisecondsPassedFromStart: Long,  val knots : Double)
