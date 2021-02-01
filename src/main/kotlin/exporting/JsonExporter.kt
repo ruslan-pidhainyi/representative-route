@@ -6,9 +6,9 @@ import com.github.filosganga.geogson.model.FeatureCollection
 import com.github.filosganga.geogson.model.Point
 import com.google.gson.GsonBuilder
 import pipeline.Coordinate
-import pipeline.Export
+import pipeline.Exporter
 
-class JsonExport : Export {
+class JsonExporter : Exporter {
 
     val gson =  GsonBuilder()
         .registerTypeAdapterFactory(GeometryAdapterFactory())

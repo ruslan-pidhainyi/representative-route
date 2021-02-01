@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test
 import pipeline.Normalizer
 import pipeline.Trip
 
-class SimpleNormalizerTest {
+class FilteringNormilizerTest {
 
     @Test
     fun `should filter observations with insufficient number of points`(){
         //given
-        val normalizer : Normalizer = SimpleNormalizer(minNumberOfPoints = 8, maxDuration = 20, fromPort = "D")
+        val normalizer : Normalizer = FilteringNormalizer(minNumberOfPoints = 8, maxDuration = 20)
         val observations : List<Trip> = listOf(
             Trip("D", "F", 10, listOf(), 13),
             Trip("D", "F", 4, listOf(), 11),
@@ -25,7 +25,7 @@ class SimpleNormalizerTest {
     @Test
     fun `should filter too long trips`(){
         //given
-        val normalizer : Normalizer = SimpleNormalizer(minNumberOfPoints = 2, maxDuration = 10, "D")
+        val normalizer : Normalizer = FilteringNormalizer(minNumberOfPoints = 2, maxDuration = 10,)
         val observations : List<Trip> = listOf(
             Trip("D", "F", 10, listOf(), 13),
             Trip("D", "F", 4, listOf(), 9),
@@ -36,19 +36,5 @@ class SimpleNormalizerTest {
         val normalizedData = normalizer.normalize(observations)
         //then
         Assertions.assertEquals(3, normalizedData.size)
-    }
-
-    @Test
-    fun `should filter trips with wrong direction`(){
-        //given
-        val normalizer : Normalizer = SimpleNormalizer(minNumberOfPoints = 2, maxDuration = 20, "D")
-        val observations : List<Trip> = listOf(
-            Trip("D", "F", 10, listOf(), 13),
-            Trip("W", "F", 4, listOf(), 9)
-        )
-        //when
-        val normalizedData = normalizer.normalize(observations)
-        //then
-        Assertions.assertEquals(1, normalizedData.size)
     }
 }

@@ -1,15 +1,14 @@
 package exporting
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import pipeline.Coordinate
-import pipeline.Export
+import pipeline.Exporter
 
 class JsonExportTest {
     @Test
     fun `should export data`(){
         //given
-        val exporter : Export = JsonExport()
+        val exporter : Exporter = JsonExporter()
         val coordinates : List<Coordinate> = listOf(
             Coordinate(8.489074, 53.615707),
             Coordinate(8.36147, 53.681942),

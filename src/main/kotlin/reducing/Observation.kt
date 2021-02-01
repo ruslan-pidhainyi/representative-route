@@ -24,16 +24,17 @@ data class Observation(
             duration = duration
         )
 
-    fun points(): List<Point>{
+    private fun points(): List<Point>{
         val arrays = points.substring(1, points.length-2).trim()
         val g : List<String> = arrays
             .replace("[", "")
             .replace(" ", "")
             .split("],")
-        return g.map {mapp(it)}
+        return g.map {pointFrom(it)}
     }
-
-    private fun mapp(str: String) : Point {
+    //this is mess, and should be fixed but i was not able to serialize json with ['a','b','c'] kind of array,
+    // and discovered geojson when already wrote this
+    private fun pointFrom(str: String) : Point {
         val arr = str.split(",")
         val knots = if (arr[3] == "null") 10.0
         else arr[3].toDouble()
