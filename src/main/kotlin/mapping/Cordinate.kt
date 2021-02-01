@@ -8,7 +8,7 @@ import kotlin.math.sqrt
 
 private const val pi = Math.PI / 180
 private const val xpi = 180 / Math.PI
-
+//https://stackoverflow.com/questions/6671183/calculate-the-center-point-of-multiple-latitude-longitude-coordinate-pairs
 fun center(coordinates : List<Coordinate>): Coordinate {
     if (coordinates.size == 1) {
         return coordinates[0]
@@ -33,5 +33,7 @@ fun center(coordinates : List<Coordinate>): Coordinate {
     val centralLatitude = atan2(z, centralSquareRoot)
     return Coordinate(centralLatitude * xpi, centralLongitude * xpi)
 }
+
+
 @Serializable
 data class Coordinate(val latitude : Double, val longitude : Double)

@@ -1,6 +1,7 @@
 package mapping
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class MapperTest {
@@ -43,6 +44,43 @@ class MapperTest {
         val center = center(coordinates)
         //then
         Assertions.assertEquals(Coordinate(latitude=8.49327327159513, longitude=53.61127454391187), center)
+    }
+
+    @Disabled
+    @Test
+    fun `should group by milliseconds passed from start`() {
+        val mapper = Mapper()
+        //when
+        val points : List<PointWithTime> = mapper.observationFrom(observationJson).pointsWithTimePassedFromStart()
+        //then
+        val groupedByTimePassedFromStart = groupByMillisecondsFromStart(points)
+    }
+
+
+    @Test
+    fun `should merge two maps`() {
+        //given
+        val mapper = Mapper()
+        //when
+        val observations : List<Observation> = mapper.observationsFrom(longObservation)
+        //then
+        val grouped1 = groupByMillisecondsFromStart(observations.component1().pointsWithTimePassedFromStart())
+        val grouped2 = groupByMillisecondsFromStart(observations.component2().pointsWithTimePassedFromStart())
+
+        val f = mergeMaps(grouped1, grouped2)
+
+    }
+
+    @Test
+    fun `should group and merge`() {
+        //given
+        val mapper = Mapper()
+        //when
+        val observations : List<Observation> = mapper.observationsFrom(longObservation)
+        val f = map(observations)
+        //then
+        println(f)
+
     }
 
 
