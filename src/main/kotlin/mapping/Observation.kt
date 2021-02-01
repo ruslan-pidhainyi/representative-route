@@ -2,14 +2,15 @@ package mapping
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
+import java.time.Duration
 
 @Serializable
 data class Observation(
     @SerialName("from_port") val fromPort : String,
     @SerialName("to_port") val toPort : String,
     @SerialName("count") val numberOfPoints : Int,
-    @SerialName("points") private val points : String
+    @SerialName("points") private val points : String,
+    @SerialName("leg_duration") val duration: Long
 ) {
 
 

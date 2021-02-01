@@ -75,13 +75,21 @@ class MapperTest {
     fun `should group and merge`() {
         //given
         val mapper = Mapper()
+        val json = this::class.java.classLoader.getResource("DEBRV_DEHAM_historical_routes.json").readText()
+        // val json = longObservation
         //when
-        val observations : List<Observation> = mapper.observationsFrom(longObservation)
+        val observations : List<Observation> = mapper.observationsFrom(json)
+            .filter { it.duration in 32000001..39999999 }
+            .filter { it.fromPort == "DEHAM" }
+            // .filter { it.numberOfPoints > 180 }
         val f = map(observations)
+        val b = mapToCenter(f)
         //then
-        println(f)
+        println(toGeoJson(b))
 
     }
+
+
 
 
 
