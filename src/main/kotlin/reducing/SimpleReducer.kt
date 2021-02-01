@@ -1,8 +1,9 @@
 package reducing
 
 import pipeline.Coordinate
-import pipeline.Observation
+import pipeline.Point
 import pipeline.Reducer
+import pipeline.Trip
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -11,7 +12,7 @@ import kotlin.math.sqrt
 data class PointWithTime(val coordinate: Coordinate, val millisecondsPassedFromStart: Long,  val knots : Double)
 
 class SimpleReducer : Reducer {
-    override fun reduce(observations: List<Observation>): List<Coordinate> {
+    override fun reduce(observations: List<Trip>): List<Coordinate> {
         val f = map(observations)
         return mapToCenter(f)
     }
@@ -31,9 +32,9 @@ class SimpleReducer : Reducer {
         return map
     }
 
-    fun map(observations: List<Observation>) : Map<Int, List<PointWithTime>> {
+    fun map(observations: List<Trip>) : Map<Int, List<PointWithTime>> {
         return observations
-            .map { it.pointsWithTimePassedFromStart() }
+            .map { pointsWithTimePassedFromStart(it.points) }
             .map { groupByMillisecondsFromStart(it) }
             .reduce(::mergeMaps)
     }
@@ -77,4 +78,16 @@ fun center(coordinates: List<Coordinate>): Coordinate {
     val centralSquareRoot = sqrt(x * x + y * y)
     val centralLatitude = atan2(z, centralSquareRoot)
     return Coordinate(centralLatitude * xpi, centralLongitude * xpi)
+}
+
+fun pointsWithTimePassedFromStart(points: List<Point>) : List<PointWithTime> {
+    val sortedPoints = points.sortedBy { it.timestamp }
+    val startTime = sortedPoints[0].timestamp
+    val pointsWithTime = sortedPoints.map { PointWithTime(
+        coordinate = it.coordinate,
+        knots = it.knots,
+        millisecondsPassedFromStart = it.timestamp - startTime
+    )
+    }
+    return pointsWithTime
 }

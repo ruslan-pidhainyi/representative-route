@@ -1,8 +1,10 @@
-package pipeline
+package reducing
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import reducing.PointWithTime
+import pipeline.Coordinate
+import pipeline.Point
+import pipeline.Trip
 
 @Serializable
 data class Observation(
@@ -13,6 +15,14 @@ data class Observation(
     @SerialName("leg_duration") val duration: Long
 ) {
 
+    fun toTrip() : Trip =
+        Trip(
+            fromPort = fromPort,
+            toPort = toPort,
+            numberOfPoints = numberOfPoints,
+            points = points(),
+            duration = duration
+        )
 
     fun points(): List<Point>{
         val arrays = points.substring(1, points.length-2).trim()
@@ -21,18 +31,6 @@ data class Observation(
             .replace(" ", "")
             .split("],")
         return g.map {mapp(it)}
-    }
-
-    fun pointsWithTimePassedFromStart() : List<PointWithTime> {
-        val sortedPoints = points().sortedBy { it.timestamp }
-        val startTime = sortedPoints[0].timestamp
-        val pointsWithTime = sortedPoints.map { PointWithTime(
-            coordinate = it.coordinate,
-            knots = it.knots,
-            millisecondsPassedFromStart = it.timestamp - startTime
-        )
-        }
-        return pointsWithTime
     }
 
     private fun mapp(str: String) : Point {
@@ -46,6 +44,6 @@ data class Observation(
     }
 }
 
-@Serializable
-data class Point(val coordinate: Coordinate, val timestamp: Long,  val knots : Double)
+
+
 

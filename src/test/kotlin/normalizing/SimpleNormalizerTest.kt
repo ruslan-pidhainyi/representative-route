@@ -3,7 +3,7 @@ package normalizing
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pipeline.Normalizer
-import pipeline.Observation
+import pipeline.Trip
 
 class SimpleNormalizerTest {
 
@@ -11,10 +11,10 @@ class SimpleNormalizerTest {
     fun `should filter observations with insufficient number of points`(){
         //given
         val normalizer : Normalizer = SimpleNormalizer(minNumberOfPoints = 8, maxDuration = 20, fromPort = "D")
-        val observations : List<Observation> = listOf(
-            Observation("D", "F", 10, "11", 13),
-            Observation("D", "F", 4, "11", 11),
-            Observation("D", "F", 8, "11", 11)
+        val observations : List<Trip> = listOf(
+            Trip("D", "F", 10, listOf(), 13),
+            Trip("D", "F", 4, listOf(), 11),
+            Trip("D", "F", 8, listOf(), 11)
         )
         //when
         val normalizedData = normalizer.normalize(observations)
@@ -26,11 +26,11 @@ class SimpleNormalizerTest {
     fun `should filter too long trips`(){
         //given
         val normalizer : Normalizer = SimpleNormalizer(minNumberOfPoints = 2, maxDuration = 10, "D")
-        val observations : List<Observation> = listOf(
-            Observation("D", "F", 10, "11", 13),
-            Observation("D", "F", 10, "11", 9),
-            Observation("D", "F", 4, "11", 8),
-            Observation("D", "F", 8, "11", 5)
+        val observations : List<Trip> = listOf(
+            Trip("D", "F", 10, listOf(), 13),
+            Trip("D", "F", 4, listOf(), 9),
+            Trip("D", "F", 8, listOf(), 8),
+            Trip("D", "F", 8, listOf(), 7)
         )
         //when
         val normalizedData = normalizer.normalize(observations)
@@ -42,10 +42,9 @@ class SimpleNormalizerTest {
     fun `should filter trips with wrong direction`(){
         //given
         val normalizer : Normalizer = SimpleNormalizer(minNumberOfPoints = 2, maxDuration = 20, "D")
-        val observations : List<Observation> = listOf(
-            Observation("D", "F", 10, "11", 13),
-            Observation("W", "F", 10, "11", 9),
-            Observation("W", "F", 4, "11", 8),
+        val observations : List<Trip> = listOf(
+            Trip("D", "F", 10, listOf(), 13),
+            Trip("W", "F", 4, listOf(), 9)
         )
         //when
         val normalizedData = normalizer.normalize(observations)
